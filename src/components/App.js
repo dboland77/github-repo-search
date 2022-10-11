@@ -9,19 +9,21 @@ import axios from 'axios';
 
 export const App = () => {
 
-const getStorage = window.localStorage.getItem('CACHED_SEARCH_HISTORY')
-  
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [listData, dispatchListData] = useReducer(listReducer, {
+  const [listData, dispatchListData] = useReducer(listReducer, 
+    {
     list: [],
     isShowList: false,
-  });
-  const [searchHistory, dispatchSearchHistory] = useReducer(historyReducer, {
-   history: [],
-   isShowHistory: false
-  })
+  }
+  );
+  const [searchHistory, dispatchSearchHistory] = useReducer(historyReducer, 
+    localStorage.getItem("CACHED_SEARCH_HISTORY") ?
+    localStorage.getItem("CACHED_SEARCH_HISTORY") 
+:
+  {history: [],
+  isShowHistory: false})
   
 
   const handleRemoveResult = (id) => {
@@ -29,7 +31,6 @@ const getStorage = window.localStorage.getItem('CACHED_SEARCH_HISTORY')
   }
 
   const handleRemoveHistory = (name) => {
-    // console.log(name)
     dispatchSearchHistory({ type: 'REMOVE_HISTORY_ITEM', name});
   }
 
@@ -53,8 +54,17 @@ const getStorage = window.localStorage.getItem('CACHED_SEARCH_HISTORY')
     }
   }
 
+  // populate from local storage on first load
+  // useEffect(() => {
+  //   const data = window.localStorage.getItem('CACHED_SEARCH_HISTORY')
+  //   if(data){
+  //     console.log("retrievedData",data)
+  //   }
+  // }, [])
   
 
+
+//Write to local storage every time the search history changes
   useEffect(() => {
     window.localStorage.setItem('CACHED_SEARCH_HISTORY', JSON.stringify(searchHistory))
   }, [searchHistory])
