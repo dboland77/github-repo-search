@@ -1,16 +1,20 @@
 const baseURL = 'https://api.github.com/search/repositories';
 
 export const getConfig = (searchTerm) => {
-  let axiosConfig;
   return (
-     axiosConfig = {
+     {
         method: "GET",
         url: ``,
         headers: {
           accept: '*/*'
         },
         params : {
-          q: searchTerm
+          q: searchTerm,
+          sort: 'stars',
+          order: 'desc',
+          per_page: 10
         },
         baseURL
 })};
+
+// q=react+language:js&sort=stars&order=desc&per_page=10
