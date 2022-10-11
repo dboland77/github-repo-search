@@ -3,12 +3,12 @@ export const historyReducer = (state, action) => {
   
   switch (action.type) {
       case 'ADD_HISTORY_ITEM':
-        return listLength < 3 ?  {
+        return listLength < 10 ?  {
           history: [...state.history,action.searchTerm],
           isShowHistory: true
         }
         :{
-          history:  [...state.history.slice(1,3),action.searchTerm],
+          history:  [...state.history.slice(1,10),action.searchTerm],
           isShowHistory: true
         };
       case 'REMOVE_HISTORY_ITEM':
