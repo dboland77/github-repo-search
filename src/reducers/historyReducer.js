@@ -1,9 +1,9 @@
 export const historyReducer = (state, action) => {
-  const listLength = state.history.length
-  
   switch (action.type) {
+    case 'RETRIEVE_CACHE':
+      return JSON.parse(action.storedHistory)
       case 'ADD_HISTORY_ITEM':
-        return listLength < 10 ?  {
+        return state.history.length < 10 ?  {
           history: [...state.history,action.searchTerm],
           isShowHistory: true
         }
@@ -14,7 +14,7 @@ export const historyReducer = (state, action) => {
       case 'REMOVE_HISTORY_ITEM':
         return {
           ...state,
-          history: state.history.filter((item) => item.id !== action.id),
+          history: state.history.filter((item) => item !== action.name),
         };
       default:
         throw new Error();

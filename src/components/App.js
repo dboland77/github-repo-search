@@ -8,6 +8,8 @@ import { listReducer, historyReducer } from "../reducers"
 import axios from 'axios';
 
 export const App = () => {
+
+const getStorage = window.localStorage.getItem('CACHED_SEARCH_HISTORY')
   
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -17,8 +19,8 @@ export const App = () => {
     isShowList: false,
   });
   const [searchHistory, dispatchSearchHistory] = useReducer(historyReducer, {
-    history: [],
-    isShowHistory: false
+   history: [],
+   isShowHistory: false
   })
   
 
@@ -26,8 +28,9 @@ export const App = () => {
     dispatchListData({ type: 'REMOVE_LIST_ITEM', id });
   }
 
-  const handleRemoveHistory = (id) => {
-    dispatchSearchHistory({ type: 'REMOVE_HISTORY_ITEM', id});
+  const handleRemoveHistory = (name) => {
+    // console.log(name)
+    dispatchSearchHistory({ type: 'REMOVE_HISTORY_ITEM', name});
   }
 
   const handleChange = (e) => {
@@ -50,6 +53,7 @@ export const App = () => {
     }
   }
 
+  
 
   useEffect(() => {
     window.localStorage.setItem('CACHED_SEARCH_HISTORY', JSON.stringify(searchHistory))
