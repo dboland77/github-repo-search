@@ -16,5 +16,3 @@ export const getConfig = (searchTerm) => {
         },
         baseURL
 })};
-
-// q=react+language:js&sort=stars&order=desc&per_page=10

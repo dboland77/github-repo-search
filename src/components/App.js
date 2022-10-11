@@ -1,4 +1,4 @@
-import React, {useState, useReducer} from 'react';
+import React, {useState, useReducer, useEffect} from 'react';
 import { SearchInput } from './SearchInput/SearchInput';
 import {getConfig} from "../config";
 import {Spinner} from "./Spinner/Spinner"
@@ -49,6 +49,12 @@ export const App = () => {
       setLoading(false);
     }
   }
+
+
+  useEffect(() => {
+    window.localStorage.setItem('CACHED_SEARCH_HISTORY', JSON.stringify(searchHistory))
+  }, [searchHistory])
+  
 
   return (
     loading ? (<Spinner/>)
