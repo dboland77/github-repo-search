@@ -1,16 +1,17 @@
 import React from 'react'
-import {ListItem} from "../ListItem"
+import { SearchHistoryItem } from './SearchHistoryItem'
 
-export const SearchHistory = ({searchHistory = [], onRemove}) => 
+export const SearchHistory = ({searchHistory = [], onRemove}) => {
+return(
     <>
     <h2> Search History (last 10)</h2>
         <ol>
         {searchHistory.map((item, index) => {
             return(
-                <ListItem listNumber = {index} item={item} onRemove={onRemove} />
+                <SearchHistoryItem key = {index} item={item} onRemove={onRemove} />
                 )})}
       </ol>
                 </>
- 
+)}
             
 

@@ -1,4 +1,4 @@
-export const ListItem = ({ item, onRemove }) => (
+export const RepoListItem = ({ item, onRemove }) => (
     <li>
         <a href = {item.html_url}>
 

@@ -4,15 +4,8 @@ import {getConfig} from "../config";
 import {Spinner} from "./Spinner/Spinner"
 import {RepoList} from "./RepoList/RepoList"
 import { SearchHistory } from './SearchInput/SearchHistory';
-import { listReducer } from "../reducers/listReducer"
+import { listReducer, historyReducer } from "../reducers"
 import axios from 'axios';
-
-const testData =[
-
-  // {"id":1, "name": "test1", "stars": 3, "url": "https://github.com/ktonga/reactive-turtle"},
-  // {"id":2, "name": "test2", "url":"https://www.google.com"},
-  // {"id":3, "name": "test3", "url": "https://www.firefox.com"}
- ]
 
 export const App = () => {
   
@@ -20,20 +13,29 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [listData, dispatchListData] = useReducer(listReducer, {
-    list: testData,
-    isShowList: true,
+    list: [],
+    isShowList: false,
   });
-  
+  const [searchHistory, dispatchSearchHistory] = useReducer(historyReducer, {
+    history: [],
+    isShowHistory: false
+  })
   
 
-  const handleRemove = (id) => {
-    dispatchListData({ type: 'REMOVE_ITEM', id });
+  const handleRemoveResult = (id) => {
+    dispatchListData({ type: 'REMOVE_LIST_ITEM', id });
   }
+
+  const handleRemoveHistory = (id) => {
+    dispatchSearchHistory({ type: 'REMOVE_HISTORY_ITEM', id});
+  }
+
   const handleChange = (e) => {
     setSearchTerm(e.target.value)
   }
   
-  const handleClick = async () => {
+  const handleSearchClick = async () => {
+    dispatchSearchHistory({ type: 'ADD_HISTORY_ITEM', searchTerm});
     setLoading(true)
     const axiosConfig = getConfig(searchTerm)
     try {
@@ -54,12 +56,12 @@ export const App = () => {
     (
     <div className="App">
       <SearchInput searchTerm={searchTerm} onChange={handleChange}/>
-      <button onClick={handleClick}> Call GITHUB </button>
+      <button onClick={handleSearchClick}> Search Github </button>
       <br></br>
       <br></br>
       <br></br>
-      {listData.isShowList && <RepoList repolist={listData.list} onRemove={handleRemove}/>}
-      {listData.isShowList && <SearchHistory searchHistory={listData.list} onRemove={handleRemove}/>}
+      {listData.isShowList && <RepoList repolist={listData.list} onRemove={handleRemoveResult}/>}
+      {searchHistory.isShowHistory && <SearchHistory searchHistory={searchHistory.history} onRemove={handleRemoveHistory}/>}
     </div>
     )
   );

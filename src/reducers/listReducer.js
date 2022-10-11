@@ -6,7 +6,7 @@ export const listReducer = (state, action) => {
           list:action.result.data.items,
           isShowList: true
         };
-      case 'REMOVE_ITEM':
+      case 'REMOVE_LIST_ITEM':
         return {
           ...state,
           list: state.list.filter((item) => item.id !== action.id),
