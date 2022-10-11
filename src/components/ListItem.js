@@ -1,6 +1,6 @@
 export const ListItem = ({ item, onRemove }) => (
     <li>
-        <a href = {item.url}>
+        <a href = {item.html_url}>
 
       <span>{item.name}</span>
         </a>

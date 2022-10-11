@@ -3,14 +3,15 @@ import { SearchInput } from './SearchInput/SearchInput';
 import {getConfig} from "../config";
 import {Spinner} from "./Spinner/Spinner"
 import {RepoList} from "./RepoList/RepoList"
+import { SearchHistory } from './SearchInput/SearchHistory';
 import { listReducer } from "../reducers/listReducer"
 import axios from 'axios';
 
 const testData =[
 
-  {"id":1, "name": "test1", "stars": 3, "url": "https://github.com/ktonga/reactive-turtle"},
-  {"id":2, "name": "test2", "url":"https://www.google.com"},
-  {"id":3, "name": "test3", "url": "https://www.firefox.com"}
+  // {"id":1, "name": "test1", "stars": 3, "url": "https://github.com/ktonga/reactive-turtle"},
+  // {"id":2, "name": "test2", "url":"https://www.google.com"},
+  // {"id":3, "name": "test3", "url": "https://www.firefox.com"}
  ]
 
 export const App = () => {
@@ -47,7 +48,6 @@ export const App = () => {
     }
   }
 
-  // console.log(listData.list)
   return (
     loading ? (<Spinner/>)
     :
@@ -59,6 +59,7 @@ export const App = () => {
       <br></br>
       <br></br>
       {listData.isShowList && <RepoList repolist={listData.list} onRemove={handleRemove}/>}
+      {listData.isShowList && <SearchHistory searchHistory={listData.list} onRemove={handleRemove}/>}
     </div>
     )
   );
