@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useReducer} from 'react';
 import { SearchInput } from './SearchInput/SearchInput';
 import {getConfig} from "../config";
 import {Spinner} from "./Spinner/Spinner"
@@ -8,18 +8,17 @@ import axios from 'axios';
 
 const testData =[
 
-  {"id":1, "name": "test1"},
-  {"id":2, "name": "test2"},
-  {"id":3, "name": "test3"}
+  {"id":1, "name": "test1", "stars": 3, "url": "https://github.com/ktonga/reactive-turtle"},
+  {"id":2, "name": "test2", "url":"https://www.google.com"},
+  {"id":3, "name": "test3", "url": "https://www.firefox.com"}
  ]
 
 export const App = () => {
   
-  const [response, setResponse] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [listData, dispatchListData] = React.useReducer(listReducer, {
+  const [listData, dispatchListData] = useReducer(listReducer, {
     list: testData,
     isShowList: true,
   });
@@ -38,7 +37,7 @@ export const App = () => {
     const axiosConfig = getConfig(searchTerm)
     try {
       const result = await axios.request(axiosConfig);
-      setResponse(result);
+      dispatchListData({ type: 'SET_LIST', result});
     } catch( err ) {
       if (error){
         setError(err);
@@ -48,6 +47,7 @@ export const App = () => {
     }
   }
 
+  // console.log(listData.list)
   return (
     loading ? (<Spinner/>)
     :
