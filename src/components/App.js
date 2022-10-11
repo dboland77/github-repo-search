@@ -19,8 +19,11 @@ export const App = () => {
   }
   );
   const [searchHistory, dispatchSearchHistory] = useReducer(historyReducer, 
-    localStorage.getItem("CACHED_SEARCH_HISTORY") ?
-    localStorage.getItem("CACHED_SEARCH_HISTORY") 
+    window.localStorage.getItem("CACHED_SEARCH_HISTORY") ?
+    {
+    history: JSON.parse(window.localStorage.getItem("CACHED_SEARCH_HISTORY")) ,
+    isShowHistory: true
+  }
 :
   {history: [],
   isShowHistory: false})
@@ -54,20 +57,11 @@ export const App = () => {
     }
   }
 
-  // populate from local storage on first load
-  // useEffect(() => {
-  //   const data = window.localStorage.getItem('CACHED_SEARCH_HISTORY')
-  //   if(data){
-  //     console.log("retrievedData",data)
-  //   }
-  // }, [])
-  
-
 
 //Write to local storage every time the search history changes
   useEffect(() => {
-    window.localStorage.setItem('CACHED_SEARCH_HISTORY', JSON.stringify(searchHistory))
-  }, [searchHistory])
+    window.localStorage.setItem('CACHED_SEARCH_HISTORY', JSON.stringify(searchHistory.history))
+  }, [searchHistory.history])
   
 
   return (
